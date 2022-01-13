@@ -1,0 +1,45 @@
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends StaticBody2D
+
+export var d = 6
+
+func _input(event):
+	var position = event.get(\"position\")
+	if position != null:
+		if event.is_pressed():
+			$Line.clear_points()
+			$Line.add_point(position)
+			$Line.add_point(position)
+			
+		elif $Line.get_point_count() == 2:
+			$Line.set_point_position(1, event.position)
+			
+			var a = $Line.get_point_position(0)
+			var b = $Line.get_point_position(1)
+			
+			var simpler = -Vector2(a.x - b.x, a.y - b.y)
+			var l = simpler.length()
+			
+			var normal_to_simpler
+			if l > 0:
+				normal_to_simpler = simpler.rotated(PI/2) * (d / l)
+			else:
+				normal_to_simpler = Vector2(0, 0)
+			
+			$Collision.polygon[0] = a + normal_to_simpler
+			$Collision.polygon[1] = b + normal_to_simpler
+			$Collision.polygon[2] = b - normal_to_simpler
+			$Collision.polygon[3] = a - normal_to_simpler
+"
+
+[node name="BordersPainter" type="StaticBody2D"]
+script = SubResource( 1 )
+
+[node name="Line" type="Line2D" parent="."]
+width = 12.0
+default_color = Color( 0.376471, 0.894118, 0.396078, 0.54902 )
+
+[node name="Collision" type="CollisionPolygon2D" parent="."]
+polygon = PoolVector2Array( 0, 0, 0, 0, 0, 0, 0, 0 )

@@ -1,0 +1,48 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://objects/BordersPainter.tscn" type="PackedScene" id=1]
+
+[sub_resource type="GDScript" id=2]
+script/source = "extends Node
+
+var score_gui
+
+var me = self
+
+func _ready():
+	# but before dropping the ball count 3.. 2.. 1..
+	var count_scene = Manager.load_gui(\"Count\")
+	self.add_child(count_scene)
+	
+	# when the count is over I should drop the ball
+	count_scene.connect(\"count_is_over\", me, \"start_game\")
+
+func start_game():
+	# drop the ball
+	var ball = Manager.load_object(\"Ball\")
+	ball.position = get_viewport().size / 2
+	ball.connect(\"out_of_screen\", me, \"game_over\")
+	self.add_child(ball)
+	
+	# and setup normal Game GUI
+	score_gui = Manager.load_gui(\"ScoreGUI\")
+	self.add_child(score_gui)
+
+func game_over():
+	var main_menu = Manager.load_gui(\"MainMenu\")
+	
+	if score_gui.score > Manager.load_record():
+		main_menu.flags.new_record = score_gui.score
+	
+	Manager.change(me, main_menu)
+"
+
+[node name="Game" type="Node"]
+script = SubResource( 2 )
+
+[node name="Game" type="Node2D" parent="."]
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="BordersPainter" parent="." instance=ExtResource( 1 )]

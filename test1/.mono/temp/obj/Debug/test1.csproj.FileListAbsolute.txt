@@ -1,0 +1,9 @@
+/home/karim/github/_utveckling/Godot/test1/.mono/temp/bin/Debug/test1.dll
+/home/karim/github/_utveckling/Godot/test1/.mono/temp/bin/Debug/test1.pdb
+/home/karim/github/_utveckling/Godot/test1/.mono/temp/obj/Debug/test1.csproj.AssemblyReference.cache
+/home/karim/github/_utveckling/Godot/test1/.mono/temp/obj/Debug/test1.GeneratedMSBuildEditorConfig.editorconfig
+/home/karim/github/_utveckling/Godot/test1/.mono/temp/obj/Debug/test1.AssemblyInfoInputs.cache
+/home/karim/github/_utveckling/Godot/test1/.mono/temp/obj/Debug/test1.AssemblyInfo.cs
+/home/karim/github/_utveckling/Godot/test1/.mono/temp/obj/Debug/test1.csproj.CoreCompileInputs.cache
+/home/karim/github/_utveckling/Godot/test1/.mono/temp/obj/Debug/test1.dll
+/home/karim/github/_utveckling/Godot/test1/.mono/temp/obj/Debug/test1.pdb

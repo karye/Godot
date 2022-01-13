@@ -1,0 +1,141 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://fonts/Montserrat-Bold.ttf" type="DynamicFontData" id=1]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Control
+
+var me = self
+
+var flags = {
+	new_record = -1
+}
+
+var alive_record
+
+func _ready():
+	if flags.new_record != -1:
+		$AnimationPlayer.play(\"new_record\")
+		
+		alive_record = Manager.load_record()
+		Manager.save_record(flags.new_record)
+		
+		$RecordLabel.text = \"- \" + str(alive_record) + \"s -\"
+		
+		$Timer.wait_time = 0.75 / (flags.new_record - alive_record)
+		$Timer.start()
+	else:
+		$RecordLabel.text = \"- \" + str( Manager.load_record() ) + \"s -\"
+
+func inc_score():
+	if alive_record == flags.new_record:
+		$Timer.stop()
+	else:
+		alive_record += 1
+		$RecordLabel.text = \"- \" + str( alive_record  ) + \"s -\"
+	
+
+func play_button_pressed():
+	var game = Manager.load_scene(\"Game\")
+	Manager.change(me, game)
+"
+
+[sub_resource type="DynamicFont" id=2]
+use_filter = true
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=3]
+size = 70
+use_filter = true
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=4]
+size = 30
+use_filter = true
+font_data = ExtResource( 1 )
+
+[sub_resource type="Animation" id=5]
+length = 0.8
+tracks/0/type = "bezier"
+tracks/0/path = NodePath("RecordLabel:custom_colors/font_color:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.234946, 0.86612, 0.352941, -0.454749, 0.981122, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.8 )
+}
+
+[node name="MainMenu" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 0.550707
+margin_top = 0.959042
+margin_right = 0.55072
+margin_bottom = 0.959045
+script = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Info" type="Label" parent="."]
+anchor_top = 0.997
+anchor_bottom = 0.997
+margin_left = 8.0
+margin_top = -31.6668
+margin_right = 100.0
+margin_bottom = -9.66681
+rect_pivot_offset = Vector2( 0, 22 )
+custom_colors/font_color = Color( 0.25098, 0.721569, 0.407843, 0.305882 )
+custom_fonts/font = SubResource( 2 )
+text = "[by P.A.C.]"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PlayButton" type="Button" parent="."]
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_top = -80.0
+margin_bottom = 12.0005
+rect_pivot_offset = Vector2( 210, 46 )
+focus_mode = 0
+custom_colors/font_color_disabled = Color( 0.25098, 0.721569, 0.407843, 0.415686 )
+custom_colors/font_color = Color( 0.1656, 0.72, 0.3504, 0.415686 )
+custom_colors/font_color_hover = Color( 0.25098, 0.721569, 0.407843, 0.415686 )
+custom_colors/font_color_pressed = Color( 0.25098, 0.721569, 0.407843, 0.415686 )
+custom_fonts/font = SubResource( 3 )
+enabled_focus_mode = 0
+text = "PLAY"
+flat = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RecordLabel" type="Label" parent="."]
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_top = -0.0281372
+margin_bottom = 37.972
+rect_pivot_offset = Vector2( 210, 19 )
+custom_colors/font_color = Color( 0.25098, 0.721569, 0.407843, 0.352941 )
+custom_fonts/font = SubResource( 4 )
+text = "- 450s -"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Timer" type="Timer" parent="."]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+method_call_mode = 1
+anims/new_record = SubResource( 5 )
+
+[connection signal="pressed" from="PlayButton" to="." method="play_button_pressed"]
+[connection signal="timeout" from="Timer" to="." method="inc_score"]

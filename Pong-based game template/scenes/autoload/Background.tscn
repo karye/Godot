@@ -1,0 +1,103 @@
+[gd_scene load_steps=3 format=2]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Node2D
+
+export(Color) var backgroud_color
+
+func _draw():
+	draw_rect(get_viewport_rect(), backgroud_color)
+"
+
+[sub_resource type="GDScript" id=2]
+script/source = "extends Node2D
+
+# initial parameters (there do not apply any effect during runtime)
+export(float, 0, 1)    var density
+export(float, 0.8, 10) var radius
+
+# dynamic parameters (can be used in runtime)
+export(float) var speed
+export(Color) var color
+
+# local variables
+var me = self
+var particles = []
+
+
+func _ready():
+	# setup local variables
+	var viewport_height = get_viewport().size.y
+	var viewport_width = get_viewport().size.x
+	
+	# calcuate particles amount
+	var amount = int(viewport_width * density)
+	
+	# generate particles
+	for _i in range(amount):
+		var particle_data = {
+			pos = Vector2(
+				randi() % int(viewport_width),
+				randi() % int(viewport_height)
+			),
+			speed = randf() + 1
+		}
+		particles.append(particle_data)
+	
+	# setup timer
+	var updater = Timer.new()
+	self.add_child(updater)
+
+	# update() will implicitly call _draw()
+	updater.connect(\"timeout\", me, \"update\")
+	
+	# ask updater to refresh screen 60 times per second
+	updater.wait_time = 0.016
+	updater.start()
+
+
+
+func _draw():
+	# This function automacly cleans backround,
+	# so I need just to draw little circle by accociated coordinats
+	var viewport_height = get_viewport().size.y
+	var viewport_width = get_viewport().size.x
+	
+	for i in range(len(particles)):
+		# checking for out of viewport
+		if particles[i].pos.y < 0:
+			# teleport to the movement start
+			particles[i].pos.x = randi() % int(viewport_width)
+			particles[i].pos.y = viewport_height
+		else:
+			# continue movement
+			particles[i].pos.y -= speed * particles[i].speed
+		
+		# make particle more transparent when it is approaching to the top
+		var particle_color = color
+		var dist_to_bottom = viewport_height - particles[i].pos.y
+		var relative_dist_to_bottom = dist_to_bottom / viewport_height
+		particle_color.a = max(0, color.a - relative_dist_to_bottom*color.a)
+		
+		# draw particle
+		draw_circle(particles[i].pos, radius, particle_color)
+"
+
+[node name="Background" type="Node"]
+
+[node name="Fill" type="Node2D" parent="."]
+script = SubResource( 1 )
+__meta__ = {
+"_edit_lock_": true
+}
+backgroud_color = Color( 0.0666667, 0.215686, 0.188235, 1 )
+
+[node name="Particles" type="Node2D" parent="."]
+script = SubResource( 2 )
+__meta__ = {
+"_edit_lock_": true
+}
+density = 0.2
+radius = 1.0
+speed = 1.0
+color = Color( 0.427451, 0.752941, 0.427451, 0.815686 )

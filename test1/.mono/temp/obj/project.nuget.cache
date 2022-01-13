@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "XPtIEnO67olDE+2/Xy751aXaYLGu7Oqluv/HyvHd60RSOrnfdIEzf9vagSnHOxj4GfRRpWJM51yOx8r7rJmwFg==",
+  "success": true,
+  "projectFilePath": "/home/karim/github/_utveckling/Godot/test1/test1.csproj",
+  "expectedPackageFiles": [
+    "/home/karim/.nuget/packages/microsoft.netframework.referenceassemblies/1.0.2/microsoft.netframework.referenceassemblies.1.0.2.nupkg.sha512",
+    "/home/karim/.nuget/packages/microsoft.netframework.referenceassemblies.net472/1.0.2/microsoft.netframework.referenceassemblies.net472.1.0.2.nupkg.sha512"
+  ],
+  "logs": []
+}
