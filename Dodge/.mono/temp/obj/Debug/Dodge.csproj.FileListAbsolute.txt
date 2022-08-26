@@ -1,9 +1,0 @@
-/home/karim/github/_utveckling/Godot/Dodge/.mono/temp/bin/Debug/Dodge.dll
-/home/karim/github/_utveckling/Godot/Dodge/.mono/temp/bin/Debug/Dodge.pdb
-/home/karim/github/_utveckling/Godot/Dodge/.mono/temp/obj/Debug/Dodge.csproj.AssemblyReference.cache
-/home/karim/github/_utveckling/Godot/Dodge/.mono/temp/obj/Debug/Dodge.GeneratedMSBuildEditorConfig.editorconfig
-/home/karim/github/_utveckling/Godot/Dodge/.mono/temp/obj/Debug/Dodge.AssemblyInfoInputs.cache
-/home/karim/github/_utveckling/Godot/Dodge/.mono/temp/obj/Debug/Dodge.AssemblyInfo.cs
-/home/karim/github/_utveckling/Godot/Dodge/.mono/temp/obj/Debug/Dodge.csproj.CoreCompileInputs.cache
-/home/karim/github/_utveckling/Godot/Dodge/.mono/temp/obj/Debug/Dodge.dll
-/home/karim/github/_utveckling/Godot/Dodge/.mono/temp/obj/Debug/Dodge.pdb
